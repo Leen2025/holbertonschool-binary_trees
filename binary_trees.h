@@ -33,7 +33,7 @@ typedef struct binary_tree_s heap_t;
  */
 typedef struct queue_node_s
 {
-	binary_tree_t *node;
+	const binary_tree_t *node;
 	struct queue_node_s *next;
 } queue_node_t;
 
