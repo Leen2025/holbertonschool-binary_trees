@@ -2,9 +2,9 @@
 #include <stdlib.h>
 
 /**
- * struct queue_node_s - Struct for queue node
- * @node: Pointer to the tree node
- * @next: Pointer to the next queue node
+ * struct queue_node_s - Queue node structure
+ * @node: Binary tree node
+ * @next: Next node in queue
  */
 typedef struct queue_node_s
 {
@@ -13,30 +13,30 @@ struct queue_node_s *next;
 } queue_node_t;
 
 /**
- * push - Adds a node to the end of the queue
- * @tail: Double pointer to the tail of the queue
- * @node: Tree node to add
- *
- * Return: Pointer to the new tail
+ * push - Adds a node to the queue
+ * @head: Pointer to the pointer to the head of the queue
+ * @tail: Pointer to the pointer to the tail of the queue
+ * @node: Binary tree node to add
  */
-queue_node_t *push(queue_node_t **tail, binary_tree_t *node)
+void push(queue_node_t **head, queue_node_t **tail, binary_tree_t *node)
 {
 queue_node_t *new = malloc(sizeof(queue_node_t));
 if (!new)
-return (NULL);
+return;
 new->node = node;
 new->next = NULL;
-if (*tail)
+if (!*head)
+*head = new;
+else
 (*tail)->next = new;
 *tail = new;
-return (new);
 }
 
 /**
- * pop - Removes a node from the front of the queue
- * @head: Double pointer to the head of the queue
+ * pop - Removes the node at the front of the queue
+ * @head: Pointer to the pointer to the head of the queue
  *
- * Return: Tree node removed from the queue
+ * Return: The tree node at the front of the queue
  */
 binary_tree_t *pop(queue_node_t **head)
 {
@@ -45,6 +45,7 @@ binary_tree_t *node;
 
 if (!head || !*head)
 return (NULL);
+
 temp = *head;
 node = temp->node;
 *head = temp->next;
@@ -53,9 +54,9 @@ return (node);
 }
 
 /**
- * binary_tree_levelorder - Goes through a binary tree using level-order
+ * binary_tree_levelorder - Goes through binary tree using level-order
  * @tree: Pointer to the root node
- * @func: Function to call for each node
+ * @func: Function to call for each node's value
  */
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
@@ -65,18 +66,15 @@ binary_tree_t *current;
 if (!tree || !func)
 return;
 
-push(&tail, (binary_tree_t *)tree);
-head = tail;
+push(&head, &tail, (binary_tree_t *)tree);
 
 while (head)
 {
 current = pop(&head);
-if (!current)
-continue;
 func(current->n);
 if (current->left)
-push(&tail, current->left);
+push(&head, &tail, current->left);
 if (current->right)
-push(&tail, current->right);
+push(&head, &tail, current->right);
 }
 }
