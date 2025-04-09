@@ -20,7 +20,6 @@ struct binary_tree_s
     struct binary_tree_s *right;
 };
 
-/* This should be after the struct definition */
 typedef struct binary_tree_s binary_tree_t;
 
 /**
@@ -69,5 +68,12 @@ binary_tree_t *binary_tree_rotate_left(binary_tree_t *tree);
 binary_tree_t *binary_tree_rotate_right(binary_tree_t *tree);
 int binary_tree_is_bst(const binary_tree_t *tree);
 bst_t *bst_insert(bst_t **tree, int value);
+
+/* Queue-related function prototypes */
+queue_t *create_queue(void);
+void enqueue(queue_t *queue, binary_tree_t *node);
+binary_tree_t *dequeue(queue_t *queue);
+int is_queue_empty(queue_t *queue);
+void free_queue(queue_t *queue);
 
 #endif
