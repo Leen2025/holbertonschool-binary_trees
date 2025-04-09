@@ -20,7 +20,23 @@ struct binary_tree_s
     struct binary_tree_s *right;
 };
 
+/* This should be after the struct definition */
 typedef struct binary_tree_s binary_tree_t;
+
+/**
+ * struct queue_node_s - Queue node structure
+ * @node: Binary tree node
+ * @next: Next node in queue
+ */
+typedef struct queue_node_s
+{
+    binary_tree_t *node;
+    struct queue_node_s *next;
+} queue_node_t;
+
+typedef struct binary_tree_s bst_t;
+typedef struct binary_tree_s avl_t;
+typedef struct binary_tree_s heap_t;
 
 void binary_tree_print(const binary_tree_t *);
 binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
@@ -54,7 +70,4 @@ binary_tree_t *binary_tree_rotate_right(binary_tree_t *tree);
 int binary_tree_is_bst(const binary_tree_t *tree);
 bst_t *bst_insert(bst_t **tree, int value);
 
-void enqueue(binary_tree_t **queue, size_t *rear, binary_tree_t *node);
-binary_tree_t *dequeue(binary_tree_t **queue, size_t *front);
-
-#endif /* _BINARY_TREES_H_ */
+#endif
