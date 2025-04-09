@@ -22,27 +22,9 @@ struct binary_tree_s
 
 typedef struct binary_tree_s binary_tree_t;
 
-/**
- * struct queue_node_s - Queue node structure
- * @node: Binary tree node
- * @next: Next node in queue
- */
-typedef struct queue_node_s
-{
-    binary_tree_t *node;
-    struct queue_node_s *next;
-} queue_node_t;
-
 typedef struct binary_tree_s bst_t;
 typedef struct binary_tree_s avl_t;
 typedef struct binary_tree_s heap_t;
-
-/* Define the queue structure */
-typedef struct queue_s
-{
-    queue_node_t *front;
-    queue_node_t *rear;
-} queue_t;
 
 queue_t *create_queue(void);
 void enqueue(queue_t *queue, binary_tree_t *node);
