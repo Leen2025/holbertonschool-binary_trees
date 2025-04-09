@@ -20,17 +20,6 @@ struct binary_tree_s
 	struct binary_tree_s *right;
 };
 
-/**
- * struct queue_node_s - Queue node structure
- * @node: Binary tree node
- * @next: Next node in queue
- */
-typedef struct queue_node_s
-{
-    binary_tree_t *node;
-    struct queue_node_s *next;
-} queue_node_t;
-
 typedef struct binary_tree_s binary_tree_t;
 
 typedef struct binary_tree_s bst_t;
@@ -97,5 +86,7 @@ binary_tree_t *binary_tree_rotate_right(binary_tree_t *tree);
 int binary_tree_is_bst(const binary_tree_t *tree);
 
 bst_t *bst_insert(bst_t **tree, int value);
+
+void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int));
 
 #endif
