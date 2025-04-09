@@ -2,17 +2,6 @@
 #include <stdlib.h>
 
 /**
- * struct queue_node_s - Queue node for level-order traversal
- * @node: Pointer to the binary tree node
- * @next: Pointer to the next queue node
- */
-typedef struct queue_node_s
-{
-    const binary_tree_t *node;
-    struct queue_node_s *next;
-} queue_node_t;
-
-/**
  * enqueue - Adds a node to the queue
  * @rear: Pointer to the tail of the queue
  * @node: Binary tree node to enqueue
