@@ -20,6 +20,17 @@ struct binary_tree_s
 	struct binary_tree_s *right;
 };
 
+/**
+ * struct queue_node_s - Queue node structure
+ * @node: Binary tree node
+ * @next: Next node in queue
+ */
+typedef struct queue_node_s
+{
+    binary_tree_t *node;
+    struct queue_node_s *next;
+} queue_node_t;
+
 typedef struct binary_tree_s binary_tree_t;
 
 typedef struct binary_tree_s bst_t;
