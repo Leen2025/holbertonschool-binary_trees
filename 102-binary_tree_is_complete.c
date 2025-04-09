@@ -1,79 +1,113 @@
 #include "binary_trees.h"
-#include <stdlib.h>
-
 /**
- * enqueue - Adds a node to the queue
- * @rear: Pointer to the tail of the queue
- * @node: Binary tree node to enqueue
- * Return: New rear of the queue
+ * new_node - Function that creates a new_node in a linked_list
+ * @node: Type pointer of node to be created
+ * Return: the node created
  */
-queue_node_t *enqueue(queue_node_t **rear, const binary_tree_t *node)
+link_t *new_node(binary_tree_t *node)
 {
-queue_node_t *new_node = malloc(sizeof(queue_node_t));
-if (!new_node)
+link_t *new;
+
+new =  malloc(sizeof(link_t));
+if (new == NULL)
+{
 return (NULL);
-new_node->node = node;
-new_node->next = NULL;
-
-if (*rear)
-(*rear)->next = new_node;
-*rear = new_node;
-
-return new_node;
 }
+new->node = node;
+new->next = NULL;
 
+return (new);
+}
 /**
- * dequeue - Removes the front node from the queue
- * @front: Pointer to the head of the queue
- * Return: Node at the front
+ * free_q - Function that free the nodes at the linked list
+ * @head: Node of the linked_list
  */
-const binary_tree_t *dequeue(queue_node_t **front)
+void free_q(link_t *head)
 {
-const binary_tree_t *node;
-queue_node_t *tmp;
+link_t *temp_node;
 
-if (!*front)
-return (NULL);
-tmp = *front;
-node = tmp->node;
-*front = tmp->next;
-free(tmp);
-return (node);
+while (head)
+{
+temp_node = head->next;
+free(head);
+head = temp_node;
 }
-
+}
 /**
- * binary_tree_is_complete - Checks if a binary tree is complete
- * @tree: Pointer to the root node of the tree
- * Return: 1 if complete, 0 otherwise
+ * _push - Function that pushes a node into the stack
+ * @node: Type pointer of node of the tree
+ * @head: Type head node of in the stack
+ * @tail: Type tail node of in the stack
+ */
+void _push(binary_tree_t *node, link_t *head, link_t **tail)
+{
+link_t *new;
+
+new = new_node(node);
+if (new == NULL)
+{
+free_q(head);
+exit(1);
+}
+(*tail)->next = new;
+*tail = new;
+}
+/**
+ * _pop - Function that pops a node into the stack
+ * @head: Type head node of in the stack
+ */
+void _pop(link_t **head)
+{
+link_t *temp_node;
+
+temp_node = (*head)->next;
+free(*head);
+*head = temp_node;
+}
+/**
+ * binary_tree_is_complete - Function that checks if a binary tree is complete
+ * @tree: Type pointer of node of the tree
+ * Return: 1 if is complete 0 if it is not
  */
 int binary_tree_is_complete(const binary_tree_t *tree)
 {
-queue_node_t *front = NULL, *rear = NULL;
-const binary_tree_t *current;
-int found_null = 0;
+link_t *head, *tail;
+int flag = 0;
 
-if (!tree)
+if (tree == NULL)
+{
 return (0);
-
-front = enqueue(&rear, tree);
-
-while (front)
+}
+head = tail = new_node((binary_tree_t *)tree);
+if (head == NULL)
 {
-current = dequeue(&front);
-
-if (current == NULL)
+exit(1);
+}
+while (head != NULL)
 {
-found_null = 1;
+if (head->node->left != NULL)
+{
+if (flag == 1)
+{
+free_q(head);
+return (0);
+}
+_push(head->node->left, head, &tail);
 }
 else
+flag = 1;
+if (head->node->right != NULL)
 {
-if (found_null)
+if (flag == 1)
+{
+free_q(head);
 return (0);
-enqueue(&rear, current->left);
-enqueue(&rear, current->right);
 }
+_push(head->node->right, head, &tail);
 }
-while (front)
-dequeue(&front);
+else
+flag = 1;
+_pop(&head);
+}
 return (1);
 }
